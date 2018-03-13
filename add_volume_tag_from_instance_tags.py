@@ -2,7 +2,7 @@ import boto3
 import pprint
 
 tagkey='Product'
-tagvalue='Contentstack'
+tagvalue='Test'
 
 #Gloal variable
 volumes_without_tags = { "data": []}
