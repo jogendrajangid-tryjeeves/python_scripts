@@ -1,6 +1,8 @@
 import boto3
 import pprint
 
+region='us-east-1'
+
 tagkey='Product'
 tagvalue='Test'
 
@@ -9,7 +11,7 @@ volumes_without_tags = { "data": []}
 instance_without_tags = { "data": []}
 volumes_not_atteched = { "data": []}
 
-ec2 = boto3.client('ec2')
+ec2 = boto3.client('ec2', region_name=region)
 describe_volumes = ec2.describe_volumes()
 
 #Get List of Instances by filter
@@ -28,7 +30,7 @@ for a in Instances_data['Reservations']:
 		pprint.pprint(a['Instances'][0]['Tags'])
 print("---------------------------------")
 
-ec3 = boto3.resource('ec2')
+ec3 = boto3.resource('ec2', region_name=region)
 #List of Volume without tag
 for value in Instances_data['Reservations']:
 	instance_tags = value['Instances'][0]['Tags']

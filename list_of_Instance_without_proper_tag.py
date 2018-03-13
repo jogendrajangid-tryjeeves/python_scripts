@@ -1,10 +1,13 @@
 import boto3
 import pprint
+
+region='us-east-1'
+
 Check_tag1='Product'
 Check_tag2='Name'
 Check_tag3='Environment'
 
-ec2=boto3.client('ec2')
+ec2=boto3.client('ec2', region_name=region)
 
 #Check instance without proper tag
 Instance_without_tags = { "data": []}
