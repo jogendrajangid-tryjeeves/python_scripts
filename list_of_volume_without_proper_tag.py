@@ -17,10 +17,10 @@ for vol_list in Volume_data['Volumes']:
 	if 'Tags' in vol_list:
 		for prams in vol_list['Tags']:
 			tag_keys['tags'].append(prams['Key'])
-	 		if ( Check_tag1 and Check_tag2 and Check_tag3 ) not in tag_keys['tags']:
+	 	if ( Check_tag1 and Check_tag2 and Check_tag3 ) not in tag_keys['tags']:
 	 			Volume_without_tags['data'].append(vol_list['VolumeId'])
-	 	else:
-	 		Volume_without_tags['data'].append(vol_list['VolumeId'])
+	else:
+	 	Volume_without_tags['data'].append(vol_list['VolumeId'])
 
 print(len(Volume_without_tags['data']),"Volumes without Proper tags")
 pprint.pprint(Volume_without_tags['data'])
