@@ -4,11 +4,11 @@ import pprint
 region='us-east-1'
 
 tagkey='Product'
-tagvalue='Test'
+tagvalue='Contentstack'
 
 #Gloal variable
 volumes_without_tags = { "data": []}
-instance_without_tags = { "data": []}
+Instance_without_tags = { "data": []}
 volumes_not_atteched = { "data": []}
 
 ec2 = boto3.client('ec2', region_name=region)
@@ -33,25 +33,31 @@ print("---------------------------------")
 ec3 = boto3.resource('ec2', region_name=region)
 #List of Volume without tag
 for value in Instances_data['Reservations']:
-	instance_tags = value['Instances'][0]['Tags']
-	if value['Instances'][0]['BlockDeviceMappings']:
-		#List of volume atteched to instance
-		for vol in value['Instances'][0]['BlockDeviceMappings']:
-			volume_id = vol['Ebs']['VolumeId']
-			for check_vol in ec2.describe_volumes(
-				Filters=[
-					{
-						'Name': 'volume-id', 'Values': [volume_id]
-				}])['Volumes']:
-				if 'Tags' not in check_vol and check_vol['Attachments'][0]['State'] == 'attached':
-					volumes_id = ec3.Volume(volume_id)
-					print("Creating tag for", value['Instances'][0]['InstanceId'] ,"And volume ",volumes_id)
-					for t in instance_tags:
-						if 'aws' not in t['Key']:
-							tag_created = volumes_id.create_tags(
-								Tags=[{
-									'Key':t['Key'],
-									'Value': t['Value']
-									},]
-							)
-							print("Created tag ",tag_created)
+	if 'Tags' in value['Instances'][0]:
+		instance_tags = value['Instances'][0]['Tags']
+		if value['Instances'][0]['BlockDeviceMappings']:
+			#List of volume atteched to instance
+			for vol in value['Instances'][0]['BlockDeviceMappings']:
+				volume_id = vol['Ebs']['VolumeId']
+				for check_vol in ec2.describe_volumes(
+					Filters=[
+						{
+							'Name': 'volume-id', 'Values': [volume_id]
+					}])['Volumes']:
+					if 'Tags' not in check_vol and check_vol['Attachments'][0]['State'] == 'attached':
+						volumes_id = ec3.Volume(volume_id)
+						print("Creating tag for", value['Instances'][0]['InstanceId'] ,"And volume ",volumes_id)
+						for t in instance_tags:
+							if 'aws' not in t['Key']:
+								tag_created = volumes_id.create_tags(
+									Tags=[{
+										'Key':t['Key'],
+										'Value': t['Value']
+										},]
+								)
+								print("Created tag ",tag_created)
+	else:
+		Instance_without_tags['data'].append(value['InstanceId'])
+
+pprint.pprint("Instances without tags")
+pprint.pprint(Instance_without_tags['data'])
