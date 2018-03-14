@@ -24,11 +24,11 @@ Instances_data = ec2.describe_instances(
         ]
     )
 
-print("--------List of instance selected--------------")
-for a in Instances_data['Reservations']:
-		pprint.pprint(a['Instances'][0]['InstanceId'])
-		pprint.pprint(a['Instances'][0]['Tags'])
-print("---------------------------------")
+#print("--------List of instance selected--------------")
+#for a in Instances_data['Reservations']:
+#		pprint.pprint(a['Instances'][0]['InstanceId'])
+#		pprint.pprint(a['Instances'][0]['Tags'])
+#print("---------------------------------")
 
 ec3 = boto3.resource('ec2', region_name=region)
 #List of Volume without tag
