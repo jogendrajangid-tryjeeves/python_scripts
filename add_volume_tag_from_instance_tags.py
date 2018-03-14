@@ -4,7 +4,7 @@ import pprint
 region='us-east-1'
 
 tagkey='Product'
-tagvalue='Contentstack'
+tagvalue='Tag'
 
 #Gloal variable
 volumes_without_tags = { "data": []}
